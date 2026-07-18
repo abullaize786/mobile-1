@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>AgriRide</title>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="premium-theme.css">
+    <link rel="stylesheet" href="mobile.css">
+    
+    <style>
+        /* Mobile Specific Overrides to perfectly match the screenshot */
+        body {
+            background-color: #f8fafc; /* light grey/blue */
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding-bottom: 70px;
+        }
+        
+        .mobile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-menu-btn {
+            font-size: 22px;
+            color: #1f2937;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-logo h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 26px;
+            color: #059669;
+            margin: 0;
+            position: relative;
+            letter-spacing: -0.5px;
+        }
+
+        .header-logo-leaf {
+            position: absolute;
+            top: -12px;
+            left: 5px;
+            color: #84cc16; /* Light green leaf */
+            font-size: 14px;
+            transform: rotate(-15deg);
+        }
+
+        .header-alerts-btn {
+            font-size: 22px;
+            color: #1f2937;
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .header-alerts-badge {
+            position: absolute;
+            top: -2px;
+            right: -4px;
+            background-color: #ef4444;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #fff;
+        }
+
+        .main-content {
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .greeting-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .greeting-text h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0 0 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .greeting-text p {
+            font-size: 14px;
+            color: #4b5563;
+            margin: 0;
+        }
+
+        .weather-widget-card {
+            background: #fff;
+            padding: 8px 12px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 100px;
+        }
+
+        .weather-top {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .weather-top i.fa-sun {
+            color: #fbbf24;
+            font-size: 20px;
+            position: relative;
+        }
+        .weather-top i.fa-cloud {
+            color: #e5e7eb;
+            font-size: 12px;
+            position: absolute;
+            bottom: -2px;
+            right: -6px;
+        }
+
+        .weather-temp {
+            font-weight: 700;
+            font-size: 16px;
+            color: #0f172a;
+            line-height: 1;
+        }
+        
+        .weather-desc {
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        .weather-location {
+            font-size: 10px;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 500;
+        }
+
+        .weather-location i {
+            color: #059669;
+        }
+
+        .search-bar-container {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .search-input-wrapper {
+            flex: 1;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+        }
+
+        .search-input-wrapper i {
+            color: #94a3b8;
+            font-size: 16px;
+        }
+
+        .search-input-wrapper input {
+            border: none;
+            background: transparent;
+            padding: 14px 12px;
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+            color: #0f172a;
+        }
+
+        .search-input-wrapper input::placeholder {
+            color: #64748b;
+        }
+
+        .filter-btn {
+            background: #059669;
+            color: white;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-header h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 0;
+        }
+
+        .section-header a {
+            font-size: 13px;
+            color: #059669;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .cat-icon {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+        }
+        
+        .cat-icon.tractor-bg { background: #f0fdf4; }
+        .cat-icon.harvester-bg { background: #f0fdf4; }
+        .cat-icon.jcb-bg { background: #fefce8; }
+        .cat-icon.tanker-bg { background: #f0f9ff; }
+
+        .cat-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .category-item span {
+            font-size: 12px;
+            font-weight: 600;
+            color: #1e293b;
+            text-align: center;
+        }
+
+        .machine-list-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .machine-card-new {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            gap: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            position: relative;
+        }
+
+        .m-card-img {
+            width: 100px;
+            height: 90px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .m-card-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .m-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .m-card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 0 0 4px 0;
+        }
+
+        .m-card-heart {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .m-card-desc {
+            font-size: 11px;
+            color: #64748b;
+            line-height: 1.3;
+            margin: 0 0 6px 0;
+        }
+
+        .m-card-rating {
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .m-card-rating i {
+            color: #fbbf24;
+        }
+        
+        .m-card-rating span {
+            color: #64748b;
+            font-weight: 400;
+        }
+
+        .m-card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .m-card-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: #059669;
+        }
+
+        .m-card-price span {
+            font-size: 12px;
+            font-weight: 500;
+            color: #64748b;
+        }
+
+        .m-btn-book {
+            background: #059669;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .promo-banner {
+            background: linear-gradient(to right, #ecfdf5, #f0fdf4);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .promo-icon-box {
+            position: relative;
+            width: 60px;
+            height: 60px;
+        }
+        
+        .promo-icon-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .promo-text {
+            flex: 1;
+        }
+
+        .promo-text h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 0 0 4px 0;
+        }
+
+        .promo-text p {
+            font-size: 11px;
+            color: #475569;
+            margin: 0;
+            line-height: 1.4;
+        }
+        
+        .promo-btn {
+            background: #059669;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 16px;
+            border-top: 1px solid #e2e8f0;
+            z-index: 100;
+            padding-bottom: calc(12px + env(safe-area-inset-bottom));
+        }
+
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 16px;
+            transition: 0.2s;
+        }
+
+        .nav-link i {
+            font-size: 20px;
+        }
+
+        .nav-link.active {
+            background: #f0fdf4;
+            color: #059669;
+        }
+
+        .nav-link.active i {
+            color: #059669;
+        }
+
+        .tab-view {
+            display: none;
+        }
+        .tab-view.active {
+            display: block;
+        }
+        
+        #alerts-badge {
+            position: absolute;
+            top: 5px;
+            right: 25px;
+            background: #ef4444;
+            color: white;
+            font-size: 10px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-header">
+        <button class="header-menu-btn" onclick="toggleMobileSidebar()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="header-logo">
+            <h1><i class="fa-solid fa-leaf header-logo-leaf"></i>AgriRide</h1>
+        </div>
+        <button class="header-alerts-btn" onclick="switchTab('alerts')">
+            <i class="fa-regular fa-bell"></i>
+            <div class="header-alerts-badge">3</div>
+        </button>
+    </div>
+
+    <!-- MAIN DASHBOARD -->
+    <div id="home-tab" class="tab-view active">
+        <div class="main-content" id="farmer-home-view">
+            
+            <!-- Greeting & Weather -->
+            <div class="greeting-section">
+                <div class="greeting-text">
+                    <h2>Hello, Farmer 👋</h2>
+                    <p>What do you need today?</p>
+                </div>
+                <div class="weather-widget-card">
+                    <div class="weather-top">
+                        <div style="position: relative; width: 24px; height: 24px;">
+                            <i class="fa-solid fa-sun"></i>
+                            <i class="fa-solid fa-cloud"></i>
+                        </div>
+                        <div>
+                            <div class="weather-temp">35°C</div>
+                            <div class="weather-desc">Sunny</div>
+                        </div>
+                    </div>
+                    <div class="weather-location">
+                        <i class="fa-solid fa-location-dot"></i> Coimbatore, TN
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-bar-container">
+                <div class="search-input-wrapper">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search machines, services...">
+                </div>
+                <button class="filter-btn">
+                    <i class="fa-solid fa-sliders"></i>
+                </button>
+            </div>
+
+            <!-- Quick Categories -->
+            <div class="section-header">
+                <h3>Quick Categories</h3>
+                <a href="#">View All <i class="fa-solid fa-chevron-right" style="font-size:10px;"></i></a>
+            </div>
+            <div class="categories-grid">
+                <a class="category-item" onclick="openBookingFlow('tractor')">
+                    <div class="cat-icon tractor-bg">
+                        <img src="assets/tractor.png" alt="Tractor" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3067/3067645.png'">
+                    </div>
+                    <span>Tractor</span>
+                </a>
+                <a class="category-item" onclick="openBookingFlow('harvester')">
+                    <div class="cat-icon harvester-bg">
+                        <img src="assets/harvester.png" alt="Harvester" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2821/2821815.png'">
+                    </div>
+                    <span>Harvester</span>
+                </a>
+                <a class="category-item" onclick="openBookingFlow('jcb')">
+                    <div class="cat-icon jcb-bg">
+                        <img src="assets/jcb.png" alt="JCB" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3268/3268897.png'">
+                    </div>
+                    <span>JCB</span>
+                </a>
+                <a class="category-item" onclick="openBookingFlow('water-tanker')">
+                    <div class="cat-icon tanker-bg">
+                        <img src="assets/tipper.png" alt="Water Tanker" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2635/2635678.png'">
+                    </div>
+                    <span>Water Tanker</span>
+                </a>
+            </div>
+
+            <!-- Popular Machines -->
+            <div class="section-header">
+                <h3>Popular Machines</h3>
+                <a href="#">View All <i class="fa-solid fa-chevron-right" style="font-size:10px;"></i></a>
+            </div>
+            <div class="machine-list-cards">
+                <!-- Machine 1 -->
+                <div class="machine-card-new">
+                    <img src="assets/tractor_card.png" alt="Tractor" class="m-card-img" onerror="this.src='assets/tractor.png'">
+                    <div class="m-card-details">
+                        <div class="m-card-top">
+                            <h4 class="m-card-title">Tractor</h4>
+                            <button class="m-card-heart"><i class="fa-regular fa-heart"></i></button>
+                        </div>
+                        <p class="m-card-desc">For plowing, cultivation and other farm work</p>
+                        <div class="m-card-rating">
+                            <i class="fa-solid fa-star"></i> 4.8 <span>(120+)</span>
+                        </div>
+                        <div class="m-card-bottom">
+                            <div class="m-card-price">₹700 <span>/ hour</span></div>
+                            <button class="m-btn-book" onclick="openBookingFlow('tractor')">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Machine 2 -->
+                <div class="machine-card-new">
+                    <img src="assets/jcb_card.png" alt="JCB" class="m-card-img" onerror="this.src='assets/jcb.png'">
+                    <div class="m-card-details">
+                        <div class="m-card-top">
+                            <h4 class="m-card-title">JCB</h4>
+                            <button class="m-card-heart"><i class="fa-regular fa-heart"></i></button>
+                        </div>
+                        <p class="m-card-desc">For digging, loading and construction work</p>
+                        <div class="m-card-rating">
+                            <i class="fa-solid fa-star"></i> 4.6 <span>(98+)</span>
+                        </div>
+                        <div class="m-card-bottom">
+                            <div class="m-card-price">₹950 <span>/ hour</span></div>
+                            <button class="m-btn-book" onclick="openBookingFlow('jcb')">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Machine 3 -->
+                <div class="machine-card-new">
+                    <img src="assets/harvester_card.png" alt="Harvester" class="m-card-img" onerror="this.src='assets/harvester.png'">
+                    <div class="m-card-details">
+                        <div class="m-card-top">
+                            <h4 class="m-card-title">Harvester</h4>
+                            <button class="m-card-heart"><i class="fa-regular fa-heart"></i></button>
+                        </div>
+                        <p class="m-card-desc">For harvesting crops fast and efficiently</p>
+                        <div class="m-card-rating">
+                            <i class="fa-solid fa-star"></i> 4.7 <span>(76+)</span>
+                        </div>
+                        <div class="m-card-bottom">
+                            <div class="m-card-price">₹1,200 <span>/ hour</span></div>
+                            <button class="m-btn-book" onclick="openBookingFlow('harvester')">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Promo Banner -->
+            <div class="promo-banner">
+                <div class="promo-icon-box">
+                    <div style="background:#fff; width:100%; height:100%; border-radius:12px; display:flex; align-items:center; justify-content:center; position:relative; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                        <i class="fa-regular fa-calendar" style="font-size:24px; color:#475569;"></i>
+                        <div style="position:absolute; bottom:5px; right:5px; background:#059669; color:#fff; border-radius:50%; width:16px; height:16px; display:flex; align-items:center; justify-content:center; font-size:10px;">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="promo-text">
+                    <h3>Save More with<br>Advance Booking!</h3>
+                    <p>Book in advance and get up to 15% off on selected machines.</p>
+                </div>
+                <button class="promo-btn" onclick="openBookingFlow()">Book Now <i class="fa-solid fa-chevron-right" style="font-size:10px;"></i></button>
+            </div>
+
+        </div>
+        
+        <!-- Worker View Fallback (for app.js compatibility) -->
+        <div class="main-content" id="worker-home-view" style="display:none;">
+            <div class="greeting-section">
+                <div class="greeting-text">
+                    <h2 id="worker-welcome-title">Hello, Operator 👋</h2>
+                    <p>Manage your machinery requests here.</p>
+                </div>
+            </div>
+            <div id="worker-jobs-grid"></div>
+        </div>
+    </div>
+
+
+    <!-- APP JS DEPENDENT TABS -->
+    <!-- Bookings Tab -->
+    <div id="bookings-tab" class="tab-view">
+        <div class="main-content">
+            <h2 class="welcome-title">My Bookings</h2>
+            <div id="bookings-grid"></div>
+        </div>
+    </div>
+
+    <!-- Booking Details Tab -->
+    <div id="booking-details-tab" class="tab-view">
+        <div class="main-content">
+            <h2 class="welcome-title"><button class="sim-back-btn" onclick="switchTab('bookings')"><i class="fa-solid fa-arrow-left"></i></button> Booking Info</h2>
+            <div id="booking-details-content"></div>
+        </div>
+    </div>
+
+    <!-- Alerts Tab -->
+    <div id="alerts-tab" class="tab-view">
+        <div class="main-content">
+            <h2 class="welcome-title">Notifications</h2>
+            <div id="alerts-list"></div>
+        </div>
+    </div>
+
+    <!-- Analytics Tab -->
+    <div id="analytics-tab" class="tab-view">
+        <div class="main-content">
+            <h2 class="welcome-title">Analytics</h2>
+            <div id="analytics-dashboard">
+                <p style="color:#64748b;">Analytics view is active.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Tab -->
+    <div id="profile-tab" class="tab-view">
+        <div class="main-content">
+            <h2 class="welcome-title">My Profile</h2>
+            <div id="profile-dashboard">
+                <p style="color:#64748b;">Profile coming soon.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cancel Reason Modal -->
+    <div id="cancel-reason-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999;">
+        <div style="background:#fff; width:90%; max-width:400px; margin: 20vh auto; border-radius:16px; padding:20px;">
+            <h3>Cancel Booking</h3>
+            <p>Are you sure you want to cancel?</p>
+            <input type="text" id="cancel-notes" placeholder="Reason..." style="width:100%; padding:10px; margin-bottom:16px; border:1px solid #ccc; border-radius:8px;">
+            <div style="display:flex; gap:10px;">
+                <button onclick="closeCancelPrompt()" style="flex:1; padding:10px; border-radius:8px; border:1px solid #ccc; background:#fff;">Close</button>
+                <button class="btn-primary" onclick="submitCancellation()" style="flex:1; padding:10px; border-radius:8px; border:none; background:#ef4444; color:#fff;">Confirm Cancellation</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notification (Will be created dynamically, just a placeholder for logic) -->
+
+    <!-- Sidebar Overlay (Dummy div for app.js) -->
+    <div id="mobile-sidebar-overlay" onclick="toggleMobileSidebar()" style="display:none;"></div>
+    <!-- Mobile Sidebar (Dummy div for app.js) -->
+    <div id="mobile-sidebar" style="display:none;"></div>
+
+
+    <!-- Bottom Navigation Layer -->
+    <div class="bottom-nav">
+        <a href="#" class="nav-link active" data-tab="home">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" class="nav-link" data-tab="bookings">
+            <i class="fa-regular fa-calendar"></i>
+            <span>Bookings</span>
+        </a>
+        <a href="#" class="nav-link" data-tab="alerts" style="position:relative;">
+            <i class="fa-regular fa-bell"></i>
+            <span>Alerts</span>
+            <div id="alerts-badge">3</div>
+        </a>
+        <a href="#" class="nav-link" data-tab="analytics">
+            <i class="fa-solid fa-chart-simple"></i>
+            <span>Analytics</span>
+        </a>
+        <a href="#" class="nav-link" data-tab="profile">
+            <i class="fa-regular fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </div>
+
+    <!-- Script loading -->
+    <script src="app.js"></script>
+</body>
+</html>

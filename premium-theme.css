@@ -1,0 +1,756 @@
+/* 
+================================================================
+   AgriRide Premium Dashboard Theme
+   Exact Match to Target Image Aesthetic
+================================================================
+*/
+body {
+    background-color: #050a07 !important;
+    background-image: 
+        radial-gradient(circle at 80% 30%, rgba(34, 197, 94, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%) !important;
+    color: #f8fafc !important;
+    font-family: var(--font-body) !important;
+}
+
+/* A dramatic dark farm skyline mimicking the image */
+body::after {
+    content: '';
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60vh;
+    background: url('assets/farm_login_bg.png') center / cover no-repeat;
+    opacity: 0.15;
+    z-index: -1;
+    pointer-events: none;
+    mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+}
+
+.header-wrapper {
+    background: rgba(8, 16, 12, 0.7) !important;
+    backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(34, 197, 94, 0.1) !important;
+}
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Custom Nav Menu */
+.nav-menu {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    background: rgba(12, 22, 16, 0.6);
+    padding: 0 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.nav-link {
+    color: rgba(255,255,255,0.6) !important;
+    text-transform: none;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 16px;
+    position: relative;
+    transition: all 0.3s ease;
+    background: transparent !important;
+}
+.nav-link i, .nav-link svg { font-size: 18px; margin-bottom: 2px; }
+.nav-link:hover { color: #fff !important; }
+.nav-link.active {
+    color: #fff !important;
+    background: linear-gradient(180deg, rgba(34, 197, 94, 0.15) 0%, transparent 100%) !important;
+    border-bottom: 3px solid #4ade80;
+    border-radius: 0;
+    box-shadow: 0 10px 20px -10px rgba(74,222,128,0.5);
+}
+.nav-link.active::after { display: none !important; }
+
+/* Dashboard Typography */
+.welcome-title {
+    font-size: 40px !important;
+    color: #fff !important;
+}
+.welcome-title .highlight {
+    color: #4ade80;
+}
+.welcome-subtitle {
+    color: rgba(255,255,255,0.6) !important;
+    font-size: 16px !important;
+    margin-top: 5px;
+}
+
+/* Weather Widget */
+.weather-widget {
+    background: rgba(15, 25, 20, 0.6) !important;
+    border: 1px solid rgba(255,255,255,0.05) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5) !important;
+    border-radius: 12px;
+    padding: 12px 20px !important;
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+}
+
+/* Machine Cards - Exact Replica */
+.machine-list { gap: 20px !important; }
+.machine-card-detailed {
+    background: rgba(10, 18, 14, 0.7) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255,255,255,0.05) !important;
+    border-left: 4px solid #4ade80 !important;
+    border-radius: 12px !important;
+    padding: 16px 24px !important;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: all 0.3s ease;
+    box-shadow: inset 15px 0 30px -15px rgba(74, 222, 128, 0.15), 0 4px 15px rgba(0,0,0,0.5) !important;
+}
+.machine-card-detailed:hover {
+    border-left: 4px solid #22c55e !important;
+    transform: translateY(-2px);
+    box-shadow: inset 15px 0 30px -15px rgba(74, 222, 128, 0.25), 0 10px 25px rgba(0,0,0,0.6) !important;
+}
+.machine-card-image {
+    width: 130px !important;
+    height: 90px !important;
+    background: #000 !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    overflow: hidden;
+}
+.machine-card-image img { width: 100%; height: 100%; object-fit: cover !important; opacity: 0.9; }
+
+.machine-card-content { flex: 1; display: flex; align-items: center; gap: 30px; }
+.machine-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 280px;
+}
+.machine-icon {
+    width: 44px !important;
+    height: 44px !important;
+    background: rgba(34, 197, 94, 0.1) !important;
+    border: 1px solid rgba(34, 197, 94, 0.3) !important;
+    color: #4ade80 !important;
+    border-radius: 10px !important;
+}
+.machine-name { color: #fff !important; font-size: 18px !important; font-weight: 600 !important; }
+.machine-description { color: rgba(255,255,255,0.5) !important; font-size: 12px !important; margin-top: 4px; }
+
+.machine-specs {
+    display: flex;
+    flex-direction: row !important;
+    gap: 40px !important;
+}
+.spec-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px !important;
+    position: relative;
+}
+.spec-item i { color: #22c55e !important; font-size: 14px; position: absolute; left: -22px; top: 2px; }
+.spec-title { font-size: 12px !important; color: #fff !important; font-weight: 600 !important; }
+.spec-value { font-size: 11px !important; color: rgba(255,255,255,0.5) !important; }
+
+/* Book Now Button */
+.machine-action {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.book-now-btn-large {
+    background: linear-gradient(90deg, #22c55e 0%, #15803d 100%) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 50px !important;
+    padding: 10px 24px !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 0 15px rgba(34,197,94,0.4) !important;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.book-now-btn-large:hover { box-shadow: 0 0 20px rgba(34,197,94,0.6) !important; transform: scale(1.02); }
+.machine-next-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.machine-next-btn:hover { background: rgba(34,197,94,0.1); border-color: #22c55e; color: #4ade80; }
+
+/* Bottom Features Bar */
+.features-section {
+    background: rgba(10, 18, 14, 0.6) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255,255,255,0.05) !important;
+    border-radius: 12px !important;
+    padding: 16px 30px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 50px !important;
+    margin-top: 30px;
+    position: relative;
+}
+.feature-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left !important;
+}
+.feature-box i {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    border: 1px solid #22c55e;
+    color: #4ade80;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    background: rgba(34,197,94,0.05);
+}
+.feature-box h4 { font-size: 13px !important; color: #fff !important; margin: 0; }
+.feature-box p { font-size: 11px !important; color: rgba(255,255,255,0.5) !important; margin: 0; }
+
+.bottom-sprout {
+    position: absolute;
+    right: 40px;
+    bottom: -10px;
+    font-size: 40px;
+    color: #22c55e;
+    filter: drop-shadow(0 0 10px rgba(34,197,94,0.5));
+}
+/* ==============================================================
+   Booking Form Overrides (Mirroring Screenshot precisely)
+============================================================== */
+.f-input, .f-select, .f-textarea {
+    background: rgba(10, 20, 15, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-radius: 12px !important;
+    color: #fff !important;
+}
+.f-input:focus, .f-select:focus, .f-textarea:focus {
+    border-color: #4ade80 !important;
+    box-shadow: inset 0 0 10px rgba(74,222,128,0.1), 0 0 15px rgba(74,222,128,0.2) !important;
+}
+.f-pill {
+    background: transparent !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    color: #fff !important;
+}
+.f-pill.sel, .sim-machine-card.selected {
+    background: rgba(34, 197, 94, 0.15) !important;
+    border-color: #22c55e !important;
+    color: #4ade80 !important;
+    box-shadow: 0 0 15px rgba(34,197,94,0.15) !important;
+}
+.f-toggle-row {
+    background: rgba(10, 20, 15, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-radius: 12px !important;
+}
+.help-notice {
+    background: rgba(10, 20, 15, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+.form-card {
+    background: rgba(10, 18, 14, 0.7) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    box-shadow: inset 15px 0 30px -15px rgba(74, 222, 128, 0.15) !important;
+}
+.page-title {
+    color: #fff !important;
+}
+.page-title .highlight {
+    color: #4ade80 !important;
+}
+
+#booking-sidebar {
+    background: rgba(5, 10, 7, 0.95) !important;
+    border-right: 1px solid rgba(255,255,255,0.05) !important;
+}
+.sidebar-logo-text, .logo-text-title, .sidebar-logo-icon {
+    color: #fff !important;
+}
+.sidebar-nav-item.active {
+    background: linear-gradient(90deg, #22c55e 0%, #15803d 100%) !important;
+    color: #fff !important;
+    box-shadow: 0 0 15px rgba(34,197,94,0.3) !important;
+}
+.btn-primary {
+    background: linear-gradient(90deg, #22c55e 0%, #15803d 100%) !important;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: 0 0 15px rgba(34,197,94,0.4) !important;
+    border-radius: 50px !important;
+}
+/* Review screens */
+.panel-left, .panel-right, .review-card, .instance-card {
+    background: rgba(10, 18, 14, 0.7) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* ================================================================
+   ANALYTICS DASHBOARD — Premium Dark Theme
+================================================================ */
+
+/* Hero Banner */
+.an-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, rgba(5,20,10,0.95) 0%, rgba(10,30,15,0.9) 50%, rgba(180,100,10,0.3) 100%);
+    border: 1px solid rgba(34,197,94,0.15);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    position: relative;
+}
+.an-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('assets/farm_map.png') right center / 55% no-repeat;
+    opacity: 0.08;
+}
+.an-hero-text { position: relative; z-index: 2; }
+.an-hero-img {
+    position: relative;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+.an-hero-ring {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border: 2px solid rgba(34,197,94,0.25);
+    border-radius: 50%;
+    right: -30px;
+    animation: an-spin 20s linear infinite;
+}
+.an-hero-ring::before {
+    content: '';
+    position: absolute;
+    inset: 15px;
+    border: 1px dashed rgba(34,197,94,0.15);
+    border-radius: 50%;
+}
+@keyframes an-spin { to { transform: rotate(360deg); } }
+
+/* KPI Cards */
+.an-kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+}
+.an-kpi-card {
+    background: rgba(8,16,12,0.85);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 18px 20px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+}
+.an-kpi-card:hover { border-color: rgba(34,197,94,0.3); transform: translateY(-2px); }
+.an-kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #22c55e, transparent);
+}
+.an-kpi-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: rgba(34,197,94,0.12);
+    border: 1px solid rgba(34,197,94,0.25);
+    display: flex; align-items: center; justify-content: center;
+    color: #4ade80;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+.an-kpi-body { flex: 1; }
+.an-kpi-label { font-size: 10px; font-weight: 700; color: #6b7280; letter-spacing: 0.8px; margin-bottom: 4px; }
+.an-kpi-value { font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 800; color: #fff; line-height: 1.1; }
+.an-kpi-trend {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 11px; color: #4ade80; margin-top: 6px;
+}
+.an-kpi-trend span { color: #6b7280; }
+.an-spark {
+    position: absolute;
+    bottom: 12px; right: 12px;
+    width: 80px; height: 30px;
+    opacity: 0.6;
+}
+
+/* Chart Cards Grid */
+.an-charts-row {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+.an-charts-row3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+.an-chart-card {
+    background: rgba(8,16,12,0.85);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 18px 20px;
+    overflow: hidden;
+}
+.an-chart-wide { grid-column: span 1; }
+.an-chart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+.an-chart-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #9ca3af;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+.an-chart-badge {
+    font-size: 11px;
+    color: #6b7280;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 3px 10px;
+    cursor: pointer;
+}
+
+/* Donut Charts */
+.an-donut-wrap {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.an-donut-legend { display: flex; flex-direction: column; gap: 7px; flex: 1; }
+.an-leg {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #d1d5db;
+}
+.an-leg span {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.an-leg strong { margin-left: auto; color: #fff; font-size: 12px; }
+
+/* Utilization Bars */
+.an-util-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+}
+.an-util-bar span { color: #9ca3af; width: 60px; flex-shrink: 0; }
+.an-util-bar b { color: #fff; font-size: 11px; flex-shrink: 0; }
+.an-util-track {
+    flex: 1;
+    height: 5px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 10px;
+    overflow: hidden;
+}
+.an-util-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 1s ease;
+}
+
+/* District List */
+.an-district-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.an-dist-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 10px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.04);
+}
+.an-dist-row span { font-size: 12px; color: #9ca3af; }
+.an-dist-row strong { font-size: 12px; color: #4ade80; font-weight: 600; }
+
+/* Responsive Analytics */
+@media (max-width: 1100px) {
+    .an-kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .an-charts-row { grid-template-columns: 1fr; }
+    .an-charts-row3 { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 680px) {
+    .an-kpi-row { grid-template-columns: 1fr 1fr; }
+    .an-charts-row3 { grid-template-columns: 1fr; }
+    .an-hero { flex-direction: column; gap: 16px; }
+    .an-hero-img { display: none; }
+}
+
+
+/* ================================================================
+   LIGHT MODE OVERRIDES FOR PREMIUM THEME
+   These ensure the premium aesthetic is maintained but with light colors
+   and clearly visible fonts (as requested).
+================================================================ */
+
+html:not(.dark-mode) body {
+    background-color: #f0fdf4 !important;
+    background-image: 
+        radial-gradient(circle at 80% 30%, rgba(34, 197, 94, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 50%) !important;
+    color: #0f172a !important;
+}
+
+html:not(.dark-mode) body::after {
+    opacity: 0.05;
+}
+
+html:not(.dark-mode) .header-wrapper {
+    background: rgba(255, 255, 255, 0.85) !important;
+    border-bottom: 1px solid rgba(34, 197, 94, 0.2) !important;
+}
+
+html:not(.dark-mode) .nav-menu {
+    background: rgba(240, 253, 244, 0.8) !important;
+    border: 1px solid rgba(34,197,94,0.2) !important;
+}
+
+html:not(.dark-mode) .nav-link {
+    color: #475569 !important;
+}
+
+html:not(.dark-mode) .nav-link:hover,
+html:not(.dark-mode) .nav-link.active {
+    color: #047857 !important;
+}
+
+
+html:not(.dark-mode) .nav-link.active {
+    background: linear-gradient(180deg, rgba(5, 150, 105, 0.1) 0%, transparent 100%) !important;
+    border-bottom: 3px solid #059669 !important;
+}
+
+html:not(.dark-mode) .welcome-title,
+html:not(.dark-mode) .machine-name,
+html:not(.dark-mode) .spec-title,
+html:not(.dark-mode) .feature-box h4,
+html:not(.dark-mode) .page-title,
+html:not(.dark-mode) .an-hero-text h2,
+html:not(.dark-mode) .an-kpi-value,
+html:not(.dark-mode) .an-leg strong,
+html:not(.dark-mode) .an-util-bar b {
+    color: #0f172a !important;
+}
+
+html:not(.dark-mode) .welcome-subtitle,
+html:not(.dark-mode) .machine-description,
+html:not(.dark-mode) .spec-value,
+html:not(.dark-mode) .feature-box p,
+html:not(.dark-mode) .an-hero-text p,
+html:not(.dark-mode) .an-kpi-label,
+html:not(.dark-mode) .an-chart-title,
+html:not(.dark-mode) .an-util-bar span,
+html:not(.dark-mode) .an-dist-row span,
+html:not(.dark-mode) .an-leg {
+    color: #475569 !important;
+}
+
+html:not(.dark-mode) .weather-widget {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(0,0,0,0.08) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
+}
+html:not(.dark-mode) .weather-temp {
+    color: #0f172a !important;
+}
+html:not(.dark-mode) .weather-condition,
+html:not(.dark-mode) .weather-location {
+    color: #475569 !important;
+}
+
+html:not(.dark-mode) .machine-card-detailed,
+html:not(.dark-mode) .form-card,
+html:not(.dark-mode) .review-card,
+html:not(.dark-mode) .instance-card,
+html:not(.dark-mode) .features-section,
+html:not(.dark-mode) .an-kpi-card,
+html:not(.dark-mode) .an-chart-card {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(34, 197, 94, 0.2) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03) !important;
+}
+
+html:not(.dark-mode) .machine-card-detailed {
+    border-left: 4px solid #10b981 !important;
+    box-shadow: inset 15px 0 30px -15px rgba(16, 185, 129, 0.1), 0 4px 15px rgba(0,0,0,0.05) !important;
+}
+html:not(.dark-mode) .machine-card-detailed:hover {
+    border-left: 4px solid #059669 !important;
+    box-shadow: inset 15px 0 30px -15px rgba(16, 185, 129, 0.15), 0 10px 25px rgba(0,0,0,0.1) !important;
+}
+
+html:not(.dark-mode) .machine-card-image {
+    background: #f8fafc !important;
+}
+
+html:not(.dark-mode) .f-input,
+html:not(.dark-mode) .f-select,
+html:not(.dark-mode) .f-textarea,
+html:not(.dark-mode) .f-toggle-row,
+html:not(.dark-mode) .help-notice {
+    background: #f8fafc !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: #0f172a !important;
+}
+
+html:not(.dark-mode) .f-input:focus,
+html:not(.dark-mode) .f-select:focus,
+html:not(.dark-mode) .f-textarea:focus {
+    border-color: #10b981 !important;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
+}
+
+html:not(.dark-mode) .f-pill {
+    border: 1px solid rgba(0,0,0,0.1) !important;
+    color: #475569 !important;
+}
+html:not(.dark-mode) .f-pill.sel {
+    color: #047857 !important;
+}
+
+html:not(.dark-mode) #booking-sidebar {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-right: 1px solid rgba(0,0,0,0.08) !important;
+}
+html:not(.dark-mode) .sidebar-logo-text,
+html:not(.dark-mode) .logo-text-title,
+html:not(.dark-mode) .sidebar-logo-icon {
+    color: #0f172a !important;
+}
+html:not(.dark-mode) .sidebar-nav-item.active {
+    color: #ffffff !important;
+}
+html:not(.dark-mode) .sidebar-nav-item:not(.active) {
+    color: #475569 !important;
+}
+
+html:not(.dark-mode) .machine-next-btn {
+    border-color: rgba(0,0,0,0.1) !important;
+    color: #0f172a !important;
+}
+html:not(.dark-mode) .machine-next-btn:hover {
+    background: rgba(16, 185, 129, 0.1) !important;
+    border-color: #10b981 !important;
+    color: #047857 !important;
+}
+
+html:not(.dark-mode) .an-hero {
+    background: linear-gradient(135deg, rgba(236,253,245,0.95) 0%, rgba(216,251,232,0.9) 50%, rgba(254,243,199,0.8) 100%) !important;
+}
+
+html:not(.dark-mode) .an-chart-badge {
+    background: rgba(0,0,0,0.03) !important;
+    border: 1px solid rgba(0,0,0,0.08) !important;
+    color: #475569 !important;
+}
+
+html:not(.dark-mode) .an-util-track {
+    background: rgba(0,0,0,0.08) !important;
+}
+html:not(.dark-mode) .an-dist-row {
+    background: rgba(0,0,0,0.02) !important;
+    border: 1px solid rgba(0,0,0,0.06) !important;
+}
+html:not(.dark-mode) .an-dist-row strong {
+    color: #059669 !important;
+}
+
+html:not(.dark-mode) #analytics-donut-chart,
+html:not(.dark-mode) #analytics-category-donut {
+    background: #e2e8f0 !important;
+}
+html:not(.dark-mode) #analytics-donut-chart > div,
+html:not(.dark-mode) #analytics-category-donut > div {
+    background: #ffffff !important;
+}
+html:not(.dark-mode) .an-kpi-trend span {
+    color: #64748b !important;
+}
+
+/* Sidebar and general typography fixes for dark text on light mode */
+html:not(.dark-mode) .welcome-section h2 { color: #0f172a !important; }
+html:not(.dark-mode) .welcome-section p { color: #475569 !important; }
+html:not(.dark-mode) .profile-card h3 { color: #0f172a !important; }
+
+/* Dashboard text specific overrides */
+html:not(.dark-mode) .profile-card {
+    background: rgba(255,255,255,0.9) !important;
+    border: 1px solid rgba(34,197,94,0.2) !important;
+}
+html:not(.dark-mode) .welcome-title {
+    text-shadow: none !important;
+}
+html:not(.dark-mode) .profile-form-input {
+    background: #f8fafc !important;
+    border-color: rgba(0,0,0,0.1) !important;
+    color: #0f172a !important;
+}
+html:not(.dark-mode) .profile-setting-row {
+    color: #0f172a !important;
+    border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+}
+html:not(.dark-mode) .profile-setting-row i {
+    color: #0f172a !important;
+}
+html:not(.dark-mode) .profile-setting-row i.fa-language, html:not(.dark-mode) .profile-setting-row i.fa-bell, html:not(.dark-mode) .profile-setting-row i.fa-moon {
+    color: white !important;
+}
+
+html:not(.dark-mode) .profile-form-label {
+    color: #475569 !important;
+}
+
+html:not(.dark-mode) .booking-card {
+    background: rgba(255,255,255,0.9) !important;
+    border: 1px solid rgba(34,197,94,0.2) !important;
+}
+html:not(.dark-mode) .machine-icon i {
+    color: #059669 !important;
+}

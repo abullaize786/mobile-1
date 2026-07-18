@@ -1,0 +1,74 @@
+{
+    "name": "AgriRide - Farm Machinery Rental",
+    "short_name": "AgriRide",
+    "description": "Book tractors, JCBs, harvesters, tippers, and farm equipment instantly",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "theme_color": "#000a08",
+    "background_color": "#000a08",
+    "categories": ["agriculture", "business"],
+    "screenshots": [{
+            "src": "assets/screenshot-mobile.png",
+            "sizes": "540x720",
+            "type": "image/png",
+            "form_factor": "narrow"
+        },
+        {
+            "src": "assets/screenshot-tablet.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide"
+        }
+    ],
+    "icons": [{
+            "src": "assets/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "assets/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "assets/icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "assets/icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "shortcuts": [{
+            "name": "Book Machine",
+            "short_name": "Book Now",
+            "description": "Quickly book a farm machine",
+            "url": "/booking.html",
+            "icons": [{
+                "src": "assets/icon-192.png",
+                "sizes": "192x192",
+                "type": "image/png"
+            }]
+        },
+        {
+            "name": "My Bookings",
+            "short_name": "Bookings",
+            "description": "View your active bookings",
+            "url": "/?tab=bookings",
+            "icons": [{
+                "src": "assets/icon-192.png",
+                "sizes": "192x192",
+                "type": "image/png"
+            }]
+        }
+    ],
+    "prefer_related_applications": false
+}

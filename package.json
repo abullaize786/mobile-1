@@ -1,0 +1,17 @@
+{
+  "name": "agriride",
+  "version": "1.0.0",
+  "description": "AgriRide - Rapido for Tractors, JCBs & Farm Machines",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx -y serve ."
+  },
+  "keywords": [
+    "agriride",
+    "agriculture",
+    "tractor",
+    "booking"
+  ],
+  "author": "AgriRide Team",
+  "license": "ISC"
+}

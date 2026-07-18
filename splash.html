@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#000a08">
+    <title>AgriRide – A Farm Journey Begins</title>
+    <meta name="description" content="AgriRide – Smart Transportation. Stronger Agriculture.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green: #16a34a;
+            --green-mid: #22c55e;
+            --green-glow: rgba(34, 197, 94, 0.35);
+            --green-light: #dcfce7;
+            --font-title: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --bg-dark: #060d08;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg-dark);
+        }
+
+        body {
+            font-family: var(--font-body);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ── Floating particle layer ── */
+        .bg-particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            bottom: -10px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #4ade80, transparent);
+            opacity: 0;
+            animation: particleRise linear infinite;
+        }
+
+        @keyframes particleRise {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-110vh) scale(0.4); opacity: 0; }
+        }
+
+        /* ── Splash Screen ── */
+        #splash {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #000a03 url('assets/splash_bg.png') center / cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0;
+            overflow: hidden;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        #splash::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(0, 10, 3, 0.45) 0%, rgba(0, 10, 3, 0.88) 100%);
+            z-index: 1;
+        }
+
+        #splash.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .splash-content-wrapper {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6vh 20px;
+        }
+
+        /* ── INDIA MAP (Top Left) ── */
+        .splash-india-map {
+            position: absolute;
+            top: 24px;
+            left: 18px;
+            width: min(280px, 36vw);
+            height: 280px;
+            opacity: 0.92;
+            z-index: 1;
+            pointer-events: none;
+            animation: mapFloat 5s ease-in-out infinite;
+        }
+
+        .splash-india-map svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.2));
+        }
+
+        @keyframes mapFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .india-path-fill {
+            fill: rgba(34, 197, 94, 0.06);
+            stroke: none;
+        }
+
+        .india-path {
+            fill: none;
+            stroke: #4ade80;
+            stroke-width: 2;
+            stroke-dasharray: 4 6;
+            animation: dashMove 25s linear infinite;
+        }
+
+        @keyframes dashMove {
+            to { stroke-dashoffset: 100; }
+        }
+
+        .map-city {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 500;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+
+        .map-city::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            background: #4ade80;
+            border-radius: 50%;
+            box-shadow: 0 0 8px 2px #22c55e;
+            flex-shrink: 0;
+            animation: cityPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes cityPulse {
+            0%, 100% { box-shadow: 0 0 8px 2px #22c55e; }
+            50% { box-shadow: 0 0 14px 4px #4ade80; }
+        }
+
+        .city-delhi    { top: 25%; left: 35%; }
+        .city-jaipur   { top: 33%; left: 22%; }
+        .city-patna    { top: 42%; left: 62%; }
+        .city-hyderabad { top: 65%; left: 42%; }
+        .city-mumbai   { top: 58%; left: 16%; }
+        .city-chennai  { top: 80%; left: 48%; }
+
+        /* ── LOGO SECTION ── */
+        .splash-logo-section {
+            text-align: center;
+            margin-top: 0;
+            animation: fadeSlideDown 0.9s cubic-bezier(0.25, 1, 0.5, 1) both;
+        }
+
+        @keyframes fadeSlideDown {
+            from { opacity: 0; transform: translateY(-24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .s-logo-icon {
+            width: 84px;
+            height: 84px;
+            margin: 0 auto 14px;
+            background: linear-gradient(135deg, rgba(34,197,94,0.22), rgba(15,23,42,0.22));
+            border: 1.5px solid rgba(74,222,128,0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 28px rgba(34,197,94,0.3), inset 0 0 18px rgba(74,222,128,0.14);
+            animation: logoPulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoPulse {
+            0%  { box-shadow: 0 0 20px rgba(34,197,94,0.25), inset 0 0 14px rgba(74,222,128,0.12); }
+            100%{ box-shadow: 0 0 40px rgba(34,197,94,0.5),  inset 0 0 28px rgba(74,222,128,0.24); }
+        }
+
+        .s-logo-icon svg {
+            width: 56px;
+            height: 56px;
+            filter: drop-shadow(0 0 14px rgba(34,197,94,0.9));
+        }
+
+        .splash-brand {
+            font-family: var(--font-title);
+            font-size: clamp(42px, 8vw, 58px);
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.5px;
+            text-shadow: 0 4px 18px rgba(0,0,0,0.6);
+            margin-bottom: 6px;
+            line-height: 1;
+        }
+
+        .splash-brand span {
+            color: #4ade80;
+            text-shadow: 0 0 20px rgba(74,222,128,0.6);
+        }
+
+        .splash-tagline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 8px;
+            font-family: var(--font-title);
+            font-size: 15px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.85);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .splash-tagline .dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 6px #22c55e;
+        }
+
+        .splash-subtext {
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 0.3px;
+        }
+
+        /* ── CENTRAL HUD ── */
+        .splash-hud {
+            position: relative;
+            width: min(440px, 88vw);
+            height: min(440px, 88vw);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            animation: fadeInScale 1s 0.3s cubic-bezier(0.25,1,0.5,1) both;
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.85); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+
+        .hud-circle {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(34,197,94,0.15);
+            box-shadow: 0 0 20px rgba(34,197,94,0.08) inset;
+        }
+
+        .hud-inner {
+            width: 38%;
+            height: 38%;
+            border: 2px dashed rgba(34,197,94,0.7);
+            animation: spinRight 20s linear infinite;
+        }
+
+        .hud-middle {
+            width: 60%;
+            height: 60%;
+            border: 2px solid rgba(34,197,94,0.3);
+        }
+
+        .hud-outer {
+            width: 88%;
+            height: 88%;
+            border: 2px dashed rgba(34,197,94,0.5);
+            animation: spinLeft 30s linear infinite;
+        }
+
+        @keyframes spinRight { 100% { transform: rotate(360deg); } }
+        @keyframes spinLeft  { 100% { transform: rotate(-360deg); } }
+
+        .hud-center-tractor {
+            position: relative;
+            z-index: 5;
+            animation: floatTractor 3.5s ease-in-out infinite alternate;
+        }
+
+        .hud-center-tractor svg {
+            width: min(100px, 22vw);
+            height: min(100px, 22vw);
+            filter: drop-shadow(0 0 24px rgba(34,197,94,0.9));
+        }
+
+        @keyframes floatTractor {
+            to { transform: translateY(-10px); }
+        }
+
+        .hud-node {
+            position: absolute;
+            width: 42px;
+            height: 42px;
+            background: rgba(10,30,15,0.88);
+            backdrop-filter: blur(6px);
+            border: 1.5px solid #22c55e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4ade80;
+            font-size: 17px;
+            box-shadow: 0 0 16px rgba(34,197,94,0.65);
+            animation: nodePulse 3s ease-in-out infinite alternate;
+        }
+
+        .node-1 { top: 8%;  left: 8%;  animation-delay: 0s; }
+        .node-2 { top: 8%;  right: 8%; animation-delay: 0.5s; }
+        .node-3 { bottom: 8%; left: 8%;  animation-delay: 1s; }
+        .node-4 { bottom: 8%; right: 8%; animation-delay: 1.5s; }
+
+        @keyframes nodePulse {
+            0%   { box-shadow: 0 0 12px rgba(34,197,94,0.5); }
+            100% { box-shadow: 0 0 24px rgba(34,197,94,0.9), 0 0 44px rgba(34,197,94,0.3); }
+        }
+
+        /* ── LOADING AREA ── */
+        .splash-loading-area {
+            position: relative;
+            text-align: center;
+            width: 100%;
+            z-index: 5;
+            flex-shrink: 0;
+            animation: fadeSlideUp 0.9s 0.5s cubic-bezier(0.25,1,0.5,1) both;
+        }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .loading-main-text {
+            font-family: var(--font-title);
+            font-size: clamp(20px, 4vw, 28px);
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            letter-spacing: 0.5px;
+        }
+
+        .loading-sub-text {
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 28px;
+        }
+
+        .splash-progress {
+            width: min(440px, 82vw);
+            margin: 0 auto 14px;
+        }
+
+        .splash-progress-track {
+            height: 8px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.12);
+            overflow: hidden;
+            border: 1px solid rgba(74,222,128,0.25);
+            box-shadow: inset 0 0 10px rgba(34,197,94,0.14);
+        }
+
+        .splash-progress-fill {
+            width: 0%;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #22c55e 0%, #4ade80 55%, #22c55e 100%);
+            box-shadow: 0 0 14px rgba(74,222,128,0.5);
+            transition: width 0.25s ease;
+        }
+
+        .splash-progress-text {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            color: rgba(255,255,255,0.8);
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .loading-status {
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: #4ade80;
+            margin-bottom: 14px;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-dots {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .loading-dots span {
+            width: 10px;
+            height: 10px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            animation: dotGlow 1.5s infinite ease-in-out both;
+        }
+
+        .loading-dots span:nth-child(1) { animation-delay: -0.4s; }
+        .loading-dots span:nth-child(2) { animation-delay: -0.2s; }
+        .loading-dots span:nth-child(3) { animation-delay: 0s; }
+        .loading-dots span:nth-child(4) { animation-delay: 0.2s; }
+        .loading-dots span:nth-child(5) { animation-delay: 0.4s; }
+
+        @keyframes dotGlow {
+            0%, 80%, 100% {
+                background: rgba(255,255,255,0.2);
+                box-shadow: none;
+            }
+            40% {
+                background: #4ade80;
+                box-shadow: 0 0 14px #4ade80, 0 0 24px #22c55e;
+            }
+        }
+
+        /* ── Bottom watermark ── */
+        .splash-watermark {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-body);
+            font-size: 11px;
+            color: rgba(255,255,255,0.25);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            z-index: 3;
+        }
+
+        /* ── Radar scan ── */
+        .radar-sweep {
+            position: absolute;
+            width: 88%;
+            height: 88%;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, transparent 0%, rgba(34,197,94,0.15) 10%, transparent 11%);
+            animation: radarSpin 4s linear infinite;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        @keyframes radarSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 480px) {
+            .splash-india-map {
+                width: min(180px, 42vw);
+                height: 200px;
+                top: 16px;
+                left: 12px;
+            }
+            .hud-node { width: 34px; height: 34px; font-size: 14px; }
+            .splash-brand { font-size: 44px; }
+        }
+
+        @media (max-height: 700px) {
+            .splash-content-wrapper { padding: 3vh 20px; }
+            .splash-hud { width: min(320px, 80vw); height: min(320px, 80vw); }
+            .s-logo-icon { width: 64px; height: 64px; }
+            .splash-brand { font-size: 40px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating particles -->
+    <div class="bg-particles" id="bg-particles"></div>
+
+    <!-- ══════════════════════════════════════
+         SPLASH SCREEN
+    ══════════════════════════════════════ -->
+    <div id="splash">
+
+        <!-- India Map (Top Left) -->
+        <div class="splash-india-map">
+            <svg viewBox="0 0 200 250" style="width:100%;height:100%;">
+                <path class="india-path-fill" d="M80,10 L70,25 L50,40 L35,70 L15,95 L10,110 L25,125 L35,120 L35,140 L45,170 L55,200 L70,230 L85,245 L95,235 L105,210 L115,180 L130,150 L145,130 L155,125 L165,130 L175,125 L195,110 L190,95 L180,85 L165,100 L155,100 L150,90 L135,75 L120,60 L110,50 L95,25 Z" />
+                <path class="india-path"      d="M80,10 L70,25 L50,40 L35,70 L15,95 L10,110 L25,125 L35,120 L35,140 L45,170 L55,200 L70,230 L85,245 L95,235 L105,210 L115,180 L130,150 L145,130 L155,125 L165,130 L175,125 L195,110 L190,95 L180,85 L165,100 L155,100 L150,90 L135,75 L120,60 L110,50 L95,25 Z" />
+            </svg>
+            <div class="map-city city-delhi">New Delhi</div>
+            <div class="map-city city-jaipur">Jaipur</div>
+            <div class="map-city city-patna">Patna</div>
+            <div class="map-city city-hyderabad">Hyderabad</div>
+            <div class="map-city city-mumbai">Mumbai</div>
+            <div class="map-city city-chennai">Chennai</div>
+        </div>
+
+        <div class="splash-content-wrapper">
+
+            <!-- LOGO SECTION -->
+            <div class="splash-logo-section">
+                <div class="s-logo-icon" aria-label="AgriRide logo">
+                    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="32" cy="32" r="27" stroke="#4ade80" stroke-width="2.2" opacity="0.9"/>
+                        <path d="M16 41H34L40 30H31L28 24H20L16 30V41Z" fill="#4ade80" opacity="0.92"/>
+                        <circle cx="22" cy="43" r="4" fill="#4ade80"/>
+                        <circle cx="34" cy="43" r="5" fill="#4ade80"/>
+                        <path d="M27 20H30L34 24H29L27 20Z" fill="#ffffff" opacity="0.95"/>
+                        <path d="M12 31H16" stroke="#4ade80" stroke-width="2.2" stroke-linecap="round"/>
+                        <path d="M41 30H44" stroke="#4ade80" stroke-width="2.2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="splash-brand">Agri<span>Ride</span></div>
+                <div class="splash-tagline">
+                    <span>Drive</span><span class="dot"></span>
+                    <span>Deliver</span><span class="dot"></span>
+                    <span>Grow</span>
+                </div>
+                <p class="splash-subtext">Smart Transportation. Stronger Agriculture.</p>
+            </div>
+
+            <!-- CENTRAL HUD -->
+            <div class="splash-hud">
+                <div class="hud-circle hud-inner"></div>
+                <div class="hud-circle hud-middle"></div>
+                <div class="hud-circle hud-outer">
+                    <div class="hud-node node-1"><i class="fa-solid fa-truck-fast"></i></div>
+                    <div class="hud-node node-2"><i class="fa-solid fa-location-dot"></i></div>
+                    <div class="hud-node node-3"><i class="fa-solid fa-seedling"></i></div>
+                    <div class="hud-node node-4"><i class="fa-solid fa-leaf"></i></div>
+                </div>
+                <div class="radar-sweep"></div>
+                <div class="hud-center-tractor">
+                    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Tractor">
+                        <circle cx="32" cy="32" r="27" stroke="#4ade80" stroke-width="2.2" opacity="0.9"/>
+                        <path d="M16 41H34L40 30H31L28 24H20L16 30V41Z" fill="#4ade80" opacity="0.95"/>
+                        <circle cx="22" cy="43" r="4" fill="#4ade80"/>
+                        <circle cx="34" cy="43" r="5" fill="#4ade80"/>
+                        <path d="M27 20H30L34 24H29L27 20Z" fill="#ffffff" opacity="0.95"/>
+                        <path d="M12 31H16" stroke="#4ade80" stroke-width="2.2" stroke-linecap="round"/>
+                        <path d="M41 30H44" stroke="#4ade80" stroke-width="2.2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- LOADING AREA -->
+            <div class="splash-loading-area">
+                <h1 class="loading-main-text" id="loading-main-text">Getting things ready...</h1>
+                <p class="loading-sub-text">Hold tight, we're preparing the best experience for you!</p>
+
+                <p class="loading-status" id="loading-status">Initializing smart systems...</p>
+
+                <div class="loading-dots">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <div class="splash-progress" aria-hidden="true">
+                    <div class="splash-progress-track">
+                        <div class="splash-progress-fill" id="splash-progress-fill"></div>
+                    </div>
+                    <div class="splash-progress-text">
+                        <span id="splash-progress-label">Preparing your ride...</span>
+                        <span id="splash-percent">0%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Watermark -->
+        <div class="splash-watermark">Powered by AgriRide Innovation</div>
+    </div>
+
+    <script>
+        /* ── Spawn background particles ── */
+        (function() {
+            const container = document.getElementById('bg-particles');
+            const count = 18;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = 3 + Math.random() * 6;
+                p.style.cssText = `
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${Math.random() * 100}%;
+                    animation-duration: ${10 + Math.random() * 14}s;
+                    animation-delay: ${-Math.random() * 14}s;
+                `;
+                container.appendChild(p);
+            }
+        })();
+
+        /* ── Splash progress & redirect ── */
+        (function() {
+            const progressFill   = document.getElementById('splash-progress-fill');
+            const progressLabel  = document.getElementById('splash-progress-label');
+            const percentEl      = document.getElementById('splash-percent');
+            const statusEl       = document.getElementById('loading-status');
+            const mainTextEl     = document.getElementById('loading-main-text');
+            const splash         = document.getElementById('splash');
+
+            const statuses = [
+                "Initializing smart systems...",
+                "Connecting to AgriRide network...",
+                "Locating nearby operators...",
+                "Loading your dashboard...",
+                "Almost ready! 🌾"
+            ];
+
+            const mainTexts = [
+                "Getting things ready...",
+                "Getting things ready...",
+                "Connecting to network...",
+                "Loading dashboard...",
+                "Almost there!"
+            ];
+
+            let pct = 0;
+            let completed = false;
+            let lastStatusIdx = -1;
+
+            function setProgress(nextPct, label, mainTxt) {
+                pct = Math.min(Math.max(nextPct, 0), 100);
+                if (progressFill)  progressFill.style.width = pct + '%';
+                if (percentEl)     percentEl.textContent  = Math.round(pct) + '%';
+                if (progressLabel) progressLabel.textContent = label || 'Preparing...';
+                if (statusEl && label)   statusEl.textContent  = label;
+                if (mainTextEl && mainTxt) mainTextEl.textContent = mainTxt;
+            }
+
+            function finishSplash() {
+                if (completed) return;
+                completed = true;
+                setProgress(100, 'Ready! Welcome to AgriRide.', 'Almost there!');
+                setTimeout(() => {
+                    splash.classList.add('hide');
+                    // Redirect to login after fade
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 900);
+                }, 600);
+            }
+
+            const interval = setInterval(() => {
+                pct += 0.85;
+                if (pct >= 100) {
+                    clearInterval(interval);
+                    finishSplash();
+                    return;
+                }
+                const idx = Math.min(
+                    Math.floor((pct / 100) * statuses.length),
+                    statuses.length - 1
+                );
+                if (idx !== lastStatusIdx) {
+                    lastStatusIdx = idx;
+                    setProgress(pct, statuses[idx], mainTexts[idx]);
+                } else {
+                    setProgress(pct, statuses[idx], mainTexts[idx]);
+                }
+            }, 120);
+
+            // Also finish immediately when page fully loads
+            window.addEventListener('load', () => {
+                setTimeout(finishSplash, 800);
+            }, { once: true });
+        })();
+    </script>
+</body>
+
+</html>

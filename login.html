@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0a1a0e">
+  <title>AgriRide – Welcome</title>
+  <meta name="description" content="Sign in or create your AgriRide account.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --green:      #2d7a3a;
+      --green-mid:  #3a9e4a;
+      --green-glow: rgba(45,122,58,0.35);
+      --gold:       #c9973a;
+      --gold-light: #e2b96a;
+      --font-title: 'Outfit', sans-serif;
+      --font-body:  'Inter', sans-serif;
+      --bg:         #060d08;
+      --card:       rgba(255,255,255,0.04);
+      --border:     rgba(255,255,255,0.10);
+      --text:       #ffffff;
+      --sub:        rgba(255,255,255,0.60);
+      --radius:     18px;
+      --input-bg:   rgba(255,255,255,0.07);
+      --input-border: rgba(255,255,255,0.14);
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      font-family: var(--font-body);
+      overflow: hidden;
+    }
+
+    /* ── SHELL: mobile-width container ── */
+    .shell {
+      position: relative;
+      width: 100%;
+      max-width: 430px;
+      height: 100dvh;
+      margin: 0 auto;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    /* ── SCREENS ── */
+    .screen {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity  0.45s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform, opacity;
+    }
+
+    .screen.active  { transform: translateX(0);     opacity: 1;   pointer-events: auto; }
+    .screen.left    { transform: translateX(-100%);  opacity: 0;   pointer-events: none; }
+    .screen.right   { transform: translateX(100%);   opacity: 0;   pointer-events: none; }
+
+    /* ══════════════════════════════════
+       SCREEN 1 — WELCOME
+    ══════════════════════════════════ */
+    #screen-welcome {
+      background: #1a2e1e;
+    }
+
+    .welcome-bg {
+      position: absolute;
+      inset: 0;
+      background: url('assets/farm_login_bg.png') center / cover no-repeat,
+                  url('assets/tractor.png') center / cover no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* gradient overlay — dark top text area + clear mid + dark bottom buttons */
+    .welcome-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom,
+          rgba(10,16,10,0.88) 0%,
+          rgba(10,16,10,0.25) 38%,
+          rgba(10,16,10,0.15) 52%,
+          rgba(10,16,10,0.72) 70%,
+          rgba(10,16,10,0.95) 100%
+        );
+    }
+
+    .welcome-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: env(safe-area-inset-top, 0px) 28px 40px;
+      padding-top: max(env(safe-area-inset-top, 0px), 52px);
+    }
+
+    .welcome-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: auto;
+    }
+
+    .welcome-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(45,122,58,0.22);
+      border: 1.5px solid rgba(74,222,128,0.4);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .welcome-logo-icon i { color: #4ade80; font-size: 18px; }
+
+    .welcome-logo-text {
+      font-family: var(--font-title);
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .welcome-logo-text span { color: #4ade80; }
+
+    .welcome-headline {
+      margin-top: auto;
+      margin-bottom: 12px;
+    }
+
+    .welcome-headline h1 {
+      font-family: var(--font-title);
+      font-size: clamp(30px, 9vw, 38px);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 24px rgba(0,0,0,0.7);
+    }
+
+    .welcome-headline p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.5;
+      max-width: 300px;
+    }
+
+    .welcome-buttons {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn-welcome-primary {
+      width: 100%;
+      padding: 17px;
+      border: none;
+      border-radius: 50px;
+      background: var(--green-mid);
+      color: #fff;
+      font-family: var(--font-title);
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      box-shadow: 0 8px 28px rgba(45,122,58,0.45);
+      transition: transform 0.18s, box-shadow 0.18s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-welcome-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.14) 0%, transparent 60%);
+      border-radius: inherit;
+    }
+
+    .btn-welcome-primary:hover  { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(45,122,58,0.6); }
+    .btn-welcome-primary:active { transform: translateY(0); }
+
+    .btn-welcome-secondary {
+      width: 100%;
+      padding: 17px;
+      border: none;
+      border-radius: 50px;
+      background: rgba(201,151,58,0.22);
+      border: 1.5px solid rgba(201,151,58,0.50);
+      color: var(--gold-light);
+      font-family: var(--font-title);
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: background 0.2s, box-shadow 0.2s;
+      backdrop-filter: blur(6px);
+    }
+
+    .btn-welcome-secondary:hover { background: rgba(201,151,58,0.32); box-shadow: 0 6px 20px rgba(201,151,58,0.25); }
+
+    .welcome-footer {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 11px;
+      color: rgba(255,255,255,0.28);
+      letter-spacing: 0.5px;
+    }
+
+    /* ══════════════════════════════════
+       SCREENS 2 & 3 — SIGN IN / REGISTER
+    ══════════════════════════════════ */
+    #screen-signin,
+    #screen-register {
+      background: var(--bg);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .form-screen-header {
+      position: relative;
+      width: 100%;
+      height: 240px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .form-screen-header img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 60%;
+    }
+
+    .form-screen-header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom,
+        rgba(6,13,8,0.45) 0%,
+        rgba(6,13,8,0.20) 50%,
+        rgba(6,13,8,0.90) 100%
+      );
+    }
+
+    .back-btn {
+      position: absolute;
+      top: max(env(safe-area-inset-top, 0px), 18px);
+      left: 16px;
+      z-index: 10;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .back-btn:hover { background: rgba(45,122,58,0.5); }
+
+    .form-header-text {
+      position: absolute;
+      bottom: 20px;
+      left: 24px;
+      right: 24px;
+      z-index: 5;
+    }
+
+    .form-header-text .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(45,122,58,0.3);
+      border: 1px solid rgba(74,222,128,0.3);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #4ade80;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .form-header-text h2 {
+      font-family: var(--font-title);
+      font-size: 26px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .form-body {
+      padding: 28px 24px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* ── Input groups ── */
+    .f-group { display: flex; flex-direction: column; gap: 7px; }
+
+    .f-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .f-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: var(--input-bg);
+      border: 1.5px solid var(--input-border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+
+    .f-wrap:focus-within {
+      border-color: #3a9e4a;
+      box-shadow: 0 0 0 3px rgba(45,122,58,0.18);
+      background: rgba(45,122,58,0.07);
+    }
+
+    .f-wrap .icon {
+      padding: 0 14px;
+      color: #4ade80;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    .f-wrap input {
+      flex: 1;
+      padding: 15px 12px 15px 0;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: #fff;
+    }
+
+    .f-wrap input::placeholder { color: rgba(255,255,255,0.22); }
+
+    .f-wrap .eye-btn {
+      background: none;
+      border: none;
+      padding: 0 14px;
+      color: rgba(255,255,255,0.3);
+      font-size: 15px;
+      cursor: pointer;
+      transition: color 0.2s;
+      flex-shrink: 0;
+    }
+
+    .f-wrap .eye-btn:hover { color: #4ade80; }
+
+    /* ── Forgot link ── */
+    .forgot-row {
+      text-align: right;
+      margin-top: -6px;
+    }
+
+    .forgot-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: #4ade80;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .forgot-link:hover { color: #22c55e; }
+
+    /* ── Submit button ── */
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #1e6b2a 0%, #3a9e4a 100%);
+      color: #fff;
+      font-family: var(--font-title);
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 28px rgba(45,122,58,0.4);
+      transition: transform 0.18s, box-shadow 0.18s;
+      position: relative;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .btn-submit::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.12) 0%, transparent 60%);
+    }
+
+    .btn-submit:hover  { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(45,122,58,0.55); }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* ── Divider ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(255,255,255,0.2);
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    /* ── Social buttons ── */
+    .social-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-social {
+      flex: 1;
+      padding: 13px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.7);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .btn-social:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); }
+
+    .btn-social img { width: 18px; height: 18px; }
+
+    /* ── Switch row ── */
+    .switch-row {
+      text-align: center;
+      font-size: 14px;
+      color: rgba(255,255,255,0.38);
+      margin-top: 4px;
+    }
+
+    .switch-row a, .switch-row span.link {
+      color: #4ade80;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .switch-row a:hover, .switch-row span.link:hover { color: #22c55e; }
+
+    /* ── Row of two inputs ── */
+    .f-row { display: flex; gap: 12px; }
+    .f-row > * { flex: 1; }
+
+    /* ── Terms note ── */
+    .terms-note {
+      font-size: 11.5px;
+      color: rgba(255,255,255,0.28);
+      text-align: center;
+      line-height: 1.55;
+    }
+
+    .terms-note a { color: rgba(74,222,128,0.65); text-decoration: none; }
+
+    /* ── Error shake ── */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%       { transform: translateX(-6px); }
+      60%       { transform: translateX(6px); }
+    }
+
+    .shake { animation: shake 0.35s ease; }
+
+    /* ── Toast ── */
+    #ar-toast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-80px);
+      background: rgba(30,107,42,0.95);
+      color: #fff;
+      padding: 12px 22px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      z-index: 9999;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(74,222,128,0.3);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    #ar-toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ── Responsive for desktop (center the mobile shell) ── */
+    @media (min-width: 431px) {
+      body {
+        background: #040b06;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .shell {
+        border-radius: 36px;
+        max-height: 860px;
+        height: 95dvh;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="ar-toast">✅ Welcome to AgriRide!</div>
+
+<div class="shell">
+
+  <!-- ══════════════════════════════════
+       SCREEN 1 — WELCOME
+  ══════════════════════════════════ -->
+  <div class="screen active" id="screen-welcome">
+    <div class="welcome-bg"></div>
+    <div class="welcome-content">
+
+      <!-- Logo -->
+      <div class="welcome-logo">
+        <div class="welcome-logo-icon"><i class="fa-solid fa-tractor"></i></div>
+        <div class="welcome-logo-text">Agri<span>Ride</span></div>
+      </div>
+
+      <!-- Headline -->
+      <div class="welcome-headline">
+        <h1>Welcome to<br>Farm<br>Management!</h1>
+        <p>Simplify your farm operations and cultivate success.</p>
+      </div>
+
+      <!-- Buttons -->
+      <div class="welcome-buttons">
+        <button class="btn-welcome-primary" onclick="goTo('signin')">Sign in</button>
+        <button class="btn-welcome-secondary" onclick="goTo('register')">Create account</button>
+      </div>
+
+      <p class="welcome-footer">By continuing you agree to our Terms &amp; Privacy Policy</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SCREEN 2 — SIGN IN
+  ══════════════════════════════════ -->
+  <div class="screen right" id="screen-signin">
+
+    <!-- Header image -->
+    <div class="form-screen-header">
+      <img src="assets/farm_login_bg.png" alt="Farm" onerror="this.src='assets/tractor.png'">
+      <button class="back-btn" onclick="goTo('welcome')" aria-label="Back">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <div class="form-header-text">
+        <div class="badge"><i class="fa-solid fa-leaf"></i> AgriRide</div>
+        <h2>Welcome Back! 👋</h2>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div class="form-body">
+
+      <div class="f-group">
+        <label for="si-email">Email Address</label>
+        <div class="f-wrap" id="si-email-wrap">
+          <i class="fa-regular fa-envelope icon"></i>
+          <input type="email" id="si-email" placeholder="Enter your email" autocomplete="email">
+        </div>
+      </div>
+
+      <div class="f-group">
+        <label for="si-password">Password</label>
+        <div class="f-wrap" id="si-pw-wrap">
+          <i class="fa-solid fa-lock icon" style="font-size:13px;"></i>
+          <input type="password" id="si-password" placeholder="Enter your password" autocomplete="current-password">
+          <button type="button" class="eye-btn" id="si-eye-btn" onclick="togglePw('si-password','si-eye-btn')" aria-label="Toggle password">
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="forgot-row">
+        <a href="#" class="forgot-link">Forgot Password?</a>
+      </div>
+
+      <button class="btn-submit" id="si-btn" onclick="handleSignIn()">
+        <span>Sign In</span>
+        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+      </button>
+
+      <div class="social-row">
+        <button class="btn-social">
+          <span style="font-size:18px;">🌐</span>
+          Google
+        </button>
+        <button class="btn-social">
+          <span style="font-size:18px;"></span>
+          Apple
+        </button>
+      </div>
+
+      <div class="switch-row">
+        Don't have an account? <span class="link" onclick="goTo('register')">Create account</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SCREEN 3 — CREATE ACCOUNT
+  ══════════════════════════════════ -->
+  <div class="screen right" id="screen-register">
+
+    <!-- Header image -->
+    <div class="form-screen-header">
+      <img src="assets/farm_login_bg.png" alt="Farm" onerror="this.src='assets/tractor.png'">
+      <button class="back-btn" onclick="goTo('welcome')" aria-label="Back">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <div class="form-header-text">
+        <div class="badge"><i class="fa-solid fa-seedling"></i> AgriRide</div>
+        <h2>Create Account 🌾</h2>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div class="form-body">
+
+      <div class="f-row">
+        <div class="f-group">
+          <label for="rg-first">First Name</label>
+          <div class="f-wrap" id="rg-first-wrap">
+            <i class="fa-regular fa-user icon"></i>
+            <input type="text" id="rg-first" placeholder="First name" autocomplete="given-name">
+          </div>
+        </div>
+        <div class="f-group">
+          <label for="rg-last">Last Name</label>
+          <div class="f-wrap">
+            <input type="text" id="rg-last" placeholder="Last name" autocomplete="family-name" style="padding-left:14px;">
+          </div>
+        </div>
+      </div>
+
+      <div class="f-group">
+        <label for="rg-phone">Mobile Number</label>
+        <div class="f-wrap" id="rg-phone-wrap">
+          <i class="fa-solid fa-phone icon"></i>
+          <input type="tel" id="rg-phone" placeholder="+91 98765 43210" autocomplete="tel">
+        </div>
+      </div>
+
+      <div class="f-group">
+        <label for="rg-email">Email Address</label>
+        <div class="f-wrap" id="rg-email-wrap">
+          <i class="fa-regular fa-envelope icon"></i>
+          <input type="email" id="rg-email" placeholder="Enter your email" autocomplete="email">
+        </div>
+      </div>
+
+      <div class="f-group">
+        <label for="rg-password">Password</label>
+        <div class="f-wrap" id="rg-pw-wrap">
+          <i class="fa-solid fa-lock icon" style="font-size:13px;"></i>
+          <input type="password" id="rg-password" placeholder="Create a password" autocomplete="new-password">
+          <button type="button" class="eye-btn" id="rg-eye-btn" onclick="togglePw('rg-password','rg-eye-btn')" aria-label="Toggle password">
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="f-group">
+        <label for="rg-role">I am a</label>
+        <div class="f-wrap">
+          <i class="fa-solid fa-tractor icon"></i>
+          <select id="rg-role" style="flex:1;padding:15px 12px 15px 0;background:transparent;border:none;outline:none;color:#fff;font-family:var(--font-body);font-size:15px;appearance:none;-webkit-appearance:none;cursor:pointer;">
+            <option value="farmer" style="background:#0e1a12;">Farmer</option>
+          </select>
+          <i class="fa-solid fa-chevron-down icon" style="color:rgba(255,255,255,0.3);font-size:12px;"></i>
+        </div>
+      </div>
+
+      <button class="btn-submit" id="rg-btn" onclick="handleRegister()">
+        <span>Create Account</span>
+        <i class="fa-solid fa-user-plus"></i>
+      </button>
+
+      <p class="terms-note">
+        By creating an account you agree to our
+        <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+      </p>
+
+      <div class="switch-row">
+        Already have an account? <span class="link" onclick="goTo('signin')">Sign in</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- .shell -->
+
+<script>
+  /* ── Screen navigation ── */
+  const screens = {
+    welcome:  document.getElementById('screen-welcome'),
+    signin:   document.getElementById('screen-signin'),
+    register: document.getElementById('screen-register')
+  };
+
+  let current = 'welcome';
+
+  function goTo(name) {
+    if (name === current) return;
+
+    const from = screens[current];
+    const to   = screens[name];
+
+    // Determine slide direction
+    const order = ['welcome', 'signin', 'register'];
+    const fromIdx = order.indexOf(current);
+    const toIdx   = order.indexOf(name);
+    const forward = toIdx > fromIdx;
+
+    // Position destination off-screen
+    to.classList.remove('active', 'left', 'right');
+    to.classList.add(forward ? 'right' : 'left');
+
+    // Force reflow
+    to.getBoundingClientRect();
+
+    // Animate
+    from.classList.remove('active');
+    from.classList.add(forward ? 'left' : 'right');
+
+    to.classList.remove('left', 'right');
+    to.classList.add('active');
+
+    current = name;
+
+    // Scroll form to top
+    if (to.scrollTop !== undefined) to.scrollTop = 0;
+  }
+
+  /* ── Password toggle ── */
+  function togglePw(inputId, btnId) {
+    const input = document.getElementById(inputId);
+    const icon  = document.querySelector(`#${btnId} i`);
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.className = 'fa-regular fa-eye-slash';
+    } else {
+      input.type = 'password';
+      icon.className = 'fa-regular fa-eye';
+    }
+  }
+
+  /* ── Toast ── */
+  function showToast(msg, isError = false) {
+    const t = document.getElementById('ar-toast');
+    t.textContent = msg;
+    t.style.background = isError
+      ? 'rgba(185,28,28,0.95)'
+      : 'rgba(30,107,42,0.95)';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  /* ── Field error highlight ── */
+  function fieldError(wrapId) {
+    const el = document.getElementById(wrapId);
+    if (!el) return;
+    el.style.borderColor = '#ef4444';
+    el.style.boxShadow   = '0 0 0 3px rgba(239,68,68,0.18)';
+    el.classList.add('shake');
+    setTimeout(() => {
+      el.style.borderColor = '';
+      el.style.boxShadow   = '';
+      el.classList.remove('shake');
+    }, 1800);
+  }
+
+  /* ── SIGN IN ── */
+  function handleSignIn() {
+    const email = document.getElementById('si-email').value.trim();
+    const pw    = document.getElementById('si-password').value.trim();
+
+    if (!email)  { fieldError('si-email-wrap'); showToast('⚠️ Please enter your email.', true); return; }
+    if (!pw)     { fieldError('si-pw-wrap');    showToast('⚠️ Please enter your password.', true); return; }
+
+    const btn = document.getElementById('si-btn');
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>Signing in...</span>';
+    btn.disabled  = true;
+
+    // Save session & go to dashboard
+    localStorage.setItem('agriride-role', 'farmer');
+
+    setTimeout(() => {
+      showToast('✅ Signed in! Welcome back.');
+      setTimeout(() => { window.location.href = 'index.html'; }, 700);
+    }, 1000);
+  }
+
+  /* ── CREATE ACCOUNT ── */
+  function handleRegister() {
+    const first = document.getElementById('rg-first').value.trim();
+    const phone = document.getElementById('rg-phone').value.trim();
+    const email = document.getElementById('rg-email').value.trim();
+    const pw    = document.getElementById('rg-password').value.trim();
+    const role  = document.getElementById('rg-role').value;
+
+    if (!first) { fieldError('rg-first-wrap'); showToast('⚠️ Enter your first name.', true);    return; }
+    if (!phone) { fieldError('rg-phone-wrap'); showToast('⚠️ Enter your mobile number.', true); return; }
+    if (!email) { fieldError('rg-email-wrap'); showToast('⚠️ Enter your email.', true);          return; }
+    if (!pw)    { fieldError('rg-pw-wrap');    showToast('⚠️ Create a password.', true);         return; }
+    if (pw.length < 6) { fieldError('rg-pw-wrap'); showToast('⚠️ Password must be 6+ characters.', true); return; }
+
+    const btn = document.getElementById('rg-btn');
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>Creating account...</span>';
+    btn.disabled  = true;
+
+    // Save session & go to dashboard
+    localStorage.setItem('agriride-role',  role);
+    localStorage.setItem('agriride-phone', phone);
+
+    setTimeout(() => {
+      showToast('🌾 Account created! Welcome to AgriRide.');
+      setTimeout(() => { window.location.href = 'index.html'; }, 800);
+    }, 1200);
+  }
+
+  /* ── Enter key support ── */
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    if (current === 'signin')   handleSignIn();
+    if (current === 'register') handleRegister();
+  });
+</script>
+</body>
+</html>

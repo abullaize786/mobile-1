@@ -1,0 +1,18 @@
+{
+  "bookings": [],
+  "alerts": [],
+  "users": [
+    {
+      "phone": "9876543210",
+      "password": "farmer123",
+      "name": "Palaniswamy K.",
+      "role": "farmer"
+    },
+    {
+      "phone": "8765432109",
+      "password": "worker123",
+      "name": "Ramesh Kumar",
+      "role": "worker"
+    }
+  ]
+}
